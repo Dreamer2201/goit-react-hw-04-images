@@ -1,0 +1,93 @@
+.searchbar {
+    padding: 10px;
+    background: linear-gradient(to top, #FFFF00,#47a8e0);
+}
+.button {
+    display: inline-flex;
+    margin: 10px;
+    text-decoration: none;
+    position: relative;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 5px 5px;
+    color: #FFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Roboto Condensed', Тahoma, sans-serif;
+    background: #337AB7;
+    cursor: pointer;
+    border: 5px solid #BFE2FF;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.button:hover,
+.button:active,
+.button:focus {
+    color: rgb(10, 14, 54);
+}
+
+.button:before,
+.button:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    height: 100%;
+    background-color: #d6d584;
+    z-index: -1;
+}
+
+.button:before {
+    left: -10px;
+    transform: translate(-50%, -50%);
+}
+
+.button:after {
+    right: -10px;
+    transform: translate(50%, -50%);
+}
+
+.button:hover:before,
+.button:active:before,
+.button:focus:before {
+    animation: from-left 0.5s both;
+}
+
+.button:hover:after,
+.button:active:after,
+.button:focus:after {
+    animation: from-right 0.5s both;
+}
+
+@keyframes from-right {
+    0% {
+        right: -10px;
+    }
+
+    50% {
+        right: 50%;
+        width: 10px;
+    }
+
+    100% {
+        right: 50%;
+        width: 100%;
+    }
+}
+
+@keyframes from-left {
+    0% {
+        left: -10px;
+    }
+
+    50% {
+        left: 50%;
+        width: 10px;
+    }
+
+    100% {
+        left: 50%;
+        width: 100%;
+    }
+}
