@@ -1,39 +1,32 @@
 import './Search.css';
-import { Component } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 
-export default class Search extends Component {
-    state = {
-        searchName: '',
-    };
-
-    hendleChangeInputSearch = (e) => {
-        const { name, value } = e.target;
-        this.setState({
-            [name]: value,
-        })
+export default function Search({ onSubmit }) {
+    const [searchName, setSearchName] = useState('');
+   
+    const hendleChangeInputSearch = (e) => {
+        const { value } = e.target;
+        setSearchName(value);
     }
-    hendleSubmitSearchForm = (e) => {
+    const hendleSubmitSearchForm = (e) => {
         e.preventDefault();
-        if (this.state.searchName.trim() === '') {
+        if (searchName.trim() === '') {
             toast.warn("Enter your request, please!");
         }
-        this.props.onSubmit(this.state.searchName);
-        this.setState({
-            searchName: '',
-        })
+        onSubmit(searchName);
+        setSearchName('');
     }
 
-    render() {
         return (
         <header className="searchbar">
-            <form className="form" onSubmit={this.hendleSubmitSearchForm}>                
+            <form className="form" onSubmit={hendleSubmitSearchForm}>                
                 <input
                 className="input"
-                onChange={this.hendleChangeInputSearch}
+                onChange={hendleChangeInputSearch}
                 name="searchName"
-                value={this.state.searchName}
+                value={searchName}
                 type="text"
                 autoComplete="off"
                 autoFocus
@@ -45,6 +38,3 @@ export default class Search extends Component {
             </form>
         </header>)
     }
-    
-    
-}
