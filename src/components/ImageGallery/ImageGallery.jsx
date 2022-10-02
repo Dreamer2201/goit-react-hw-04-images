@@ -15,6 +15,18 @@ export default function ImageGallery({ searchName }) {
     const [urlLarge, setUrlLarge] = useState('');
     const [title, setTitle] = useState('');
     
+    useEffect(() => {
+        if (!searchName) {
+            return;
+        } 
+        fetchImages(searchName, 1);
+        setPage(1);
+    }, [searchName]);
+
+    useEffect(() => {
+        fetchImages(searchName, page);
+    }, [page]);
+    
     async function fetchImages(currentName, currentPage) {
         setLoading(true);
         try {
@@ -24,38 +36,14 @@ export default function ImageGallery({ searchName }) {
                 return toast.warn("Any images not found! Try again, please.");
             }
             if (currentPage === 1) {
-                setImages(() => {
-                    return {
-                        images: [...items]
-                    }
-                });
+                setImages([...items]);
             } else {
-                setImages(({ images }) => {
-                    return {
-                        images: [...images, ...items]
-                    }
-                });
+                setImages([...images, ...items]);
             }
         } catch (error) {
             setError(error);
         } finally {
             setLoading(false);
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { page } = this.state;
-        const { searchName } = this.props;     
-        if (page > prevState.page) {
-            this.fetchImages(searchName, page);
-            return;
-        }
-        if ((prevProps.searchName !== searchName) && page === prevState.page) {
-            this.fetchImages(searchName, 1);
-            this.setState({
-                page: 1,
-            })
-            return;
         }
     }
 
@@ -70,11 +58,7 @@ export default function ImageGallery({ searchName }) {
         setTitle('');
     }
     const loadMore = () => {
-        setPage(() => {
-            return {
-                page: page + 1
-            }
-        });
+        setPage(page + 1);
     }
 
     const isImages = Boolean(images.length);
@@ -90,7 +74,7 @@ export default function ImageGallery({ searchName }) {
                                 ariaLabel="dna-loading"
                                 wrapperStyle={{}}
                                 wrapperClass="dna-wrapper" />}
-                {showModal && <Modal onClose={closeModal} content={urlLarge, title} />}
+                {showModal && <Modal onClose={closeModal} urlModalImg={urlLarge} dscModalImg={title} />}
             </div>
         )
     }

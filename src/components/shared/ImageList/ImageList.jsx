@@ -10,7 +10,6 @@ export default function ImageList({ items, onClick }) {
                     imageURL={item.webformatURL}
                     imageTitle={item.tags}
                     imageUrlLarge={item.largeImageURL}
-
                     onClickItem={onClick}
                 />
             ))}

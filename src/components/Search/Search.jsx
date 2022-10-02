@@ -2,7 +2,6 @@ import './Search.css';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-
 export default function Search({ onSubmit }) {
     const [searchName, setSearchName] = useState('');
    
