@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import ImageList from '../shared/ImageList/ImageList';
 import fetchRequest from 'Fetch/FetchApi';
@@ -15,19 +15,8 @@ export default function ImageGallery({ searchName }) {
     const [urlLarge, setUrlLarge] = useState('');
     const [title, setTitle] = useState('');
     
-    useEffect(() => {
-        if (!searchName) {
-            return;
-        } 
-        fetchImages(searchName, 1);
-        setPage(1);
-    }, [searchName]);
 
-    useEffect(() => {
-        fetchImages(searchName, page);
-    }, [page]);
-    
-    async function fetchImages(currentName, currentPage) {
+    const fetchImages = useCallback(async(currentName, currentPage) => {
         setLoading(true);
         try {
             const result = await fetchRequest(currentName, currentPage);
@@ -38,14 +27,49 @@ export default function ImageGallery({ searchName }) {
             if (currentPage === 1) {
                 setImages([...items]);
             } else {
-                setImages([...images, ...items]);
+                setImages((prev) => [...prev, ...items]);
             }
         } catch (error) {
             setError(error);
         } finally {
             setLoading(false);
         }
-    }
+    }, [])
+
+    useEffect(() => {
+        if (!searchName) {
+            return;
+        } 
+        fetchImages(searchName, 1);
+        setPage(1);
+    }, [searchName, page, fetchImages]);
+
+    useEffect(() => {
+        fetchImages(searchName, page);
+    }, [searchName, page, fetchImages]);
+    
+
+    
+
+    // async function fetchImages(currentName, currentPage) {
+    //     setLoading(true);
+    //     try {
+    //         const result = await fetchRequest(currentName, currentPage);
+    //         const items = result.hits;
+    //         if (items.length === 0) {
+    //             return toast.warn("Any images not found! Try again, please.");
+    //         }
+    //         if (currentPage === 1) {
+    //             setImages([...items]);
+    //         } else {
+    //             setImages([...images, ...items]);
+    //         }
+    //     } catch (error) {
+    //         setError(error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
 
     const openModal = (urlLarge, title) => {
         setShowModal(true);
