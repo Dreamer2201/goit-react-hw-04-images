@@ -15,7 +15,7 @@ export default function Search({ onSubmit }) {
             toast.warn("Enter your request, please!");
         }
         onSubmit(searchName);
-        setSearchName('');
+         setSearchName('');
     }
 
         return (

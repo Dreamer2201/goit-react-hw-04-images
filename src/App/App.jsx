@@ -9,7 +9,8 @@ export default function App() {
   const [searchName, setSearchName] = useState('');
  
   const handleSubmitSearchForm = searchName => {
-  setSearchName(searchName);
+    setSearchName(searchName);
+
   }
 
     return (
