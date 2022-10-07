@@ -17,7 +17,10 @@ export default function ImageGallery({ searchName }) {
 
     const prevPage = usePrevious(page);
     const prevSearchName = usePrevious(searchName);
-    
+    console.log(prevPage);
+    console.log(prevSearchName);
+    console.log(page);
+    console.log(searchName);
     
     useEffect(() => {
 
@@ -42,9 +45,11 @@ export default function ImageGallery({ searchName }) {
         };
 
         if (!searchName) {
+            setImages([]);
             return;
         }       
         if (page > prevPage) {
+            console.log('loadmore');
             fetchImages(searchName, page);
             return;
         }
@@ -73,6 +78,7 @@ export default function ImageGallery({ searchName }) {
     }
 
     const loadMore = () => {
+        console.log("load more worked");
         setPage((prev) => prev + 1);
     }
 
